@@ -157,7 +157,7 @@ def prepare_post(post_url: str, club_index: int = None, club_keyword: str = None
 
 
 # perform post
-def perform_post(club_element: str, expected_club_text: str):
+def perform_post(club_element, expected_club_text: str):
     actual_club_text = club_element.text.split('\n', 1)[0].strip()
     # check actual club is as expected
     if actual_club_text != expected_club_text:
