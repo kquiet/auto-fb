@@ -1,0 +1,28 @@
+version: 1
+formatters:
+  defaultFormatter:
+    format: '[%(asctime)s][%(levelname)s] %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+  consoleHandler:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: defaultFormatter
+    stream: ext://sys.stdout
+
+  fileHandler:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: INFO
+    formatter: defaultFormatter
+    filename: log/app.log
+    when: D
+    interval: 1
+    backupCount: 28
+    encoding: utf8
+    delay: True
+
+loggers:
+  root:
+    level: INFO
+    handlers: [consoleHandler, fileHandler]
