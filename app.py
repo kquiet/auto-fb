@@ -122,8 +122,9 @@ def show_club_for_post(post_url: str, club_index: int):
     driver.find_element(by=By.XPATH, value='//div[@aria-label="傳送給朋友或在個人檔案上發佈。"]').click()
     time.sleep(10)
 
-    logger.info('點選分享到社團')
-    driver.find_element(by=By.XPATH, value="//*[contains(text(), '分享到社團')]").click()
+    logger.info('點選社團')
+    #driver.find_element(by=By.XPATH, value="//*[contains(text(), '分享到社團')]").click()
+    driver.find_element(by=By.XPATH, value="//span[contains(text(), '社團')]/parent::span/parent::div/parent::div/parent::div/parent::div").click()
     time.sleep(8)
 
     # starting to move down to have all clubs shown up
