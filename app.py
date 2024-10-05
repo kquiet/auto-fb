@@ -119,19 +119,20 @@ def show_club_for_post(post_url: str, club_index: int):
     time.sleep(10)
     
     logger.info('點選分享')
-    driver.find_element(by=By.XPATH, value='//div[@aria-label="傳送給朋友或在個人檔案上發佈。"]').click()
+    driver.find_element(by=By.XPATH, value='(//div[@aria-label="傳送給朋友或在個人檔案上發佈。"])[last()]').click()
     time.sleep(10)
 
     logger.info('點選社團')
     #driver.find_element(by=By.XPATH, value="//*[contains(text(), '分享到社團')]").click()
-    driver.find_element(by=By.XPATH, value="//span[contains(text(), '社團')]/parent::span/parent::div/parent::div/parent::div/parent::div").click()
+    #driver.find_element(by=By.XPATH, value="//span[contains(text(), '社團')]/parent::span/parent::div/parent::div/parent::div/parent::div").click()
+    driver.find_element(by=By.XPATH, value="//div[@aria-label='統一分享工作表中可用的「分享位置」選項清單。']//span[contains(text(),'社團')]").click()
     time.sleep(8)
 
     # starting to move down to have all clubs shown up
     actions = ActionChains(driver)
     while True:
         logger.info('尋找目標社團index: ' + str(club_index))
-        club_list = driver.find_elements(By.XPATH, '//div[@role="listitem"]')
+        club_list = driver.find_elements(By.XPATH, '(//div[@role="list"])[last()]/div[@role="listitem"]')
         before_moveto_count = len(club_list)
         if (before_moveto_count == 0):
             logger.info('找不到任何社團')
@@ -144,7 +145,7 @@ def show_club_for_post(post_url: str, club_index: int):
             logger.info('移至最下面的社團以取得更多社團清單')
             actions.move_to_element(club_list[before_moveto_count-1]).perform()
             time.sleep(3)
-            new_count = len(driver.find_elements(By.XPATH, '//div[@role="listitem"]'))
+            new_count = len(driver.find_elements(By.XPATH, '(//div[@role="list"])[last()]/div[@role="listitem"]'))
             logger.info('往下移之後有 ' + str(new_count) + " 個社團")
             if new_count == before_moveto_count:
                 logger.info('不需再往下移')
@@ -188,7 +189,7 @@ def start_to_post():
         while True:
             try:
                 show_club_for_post(post_url, club_index_to_show)
-                club_elements = driver.find_elements(by=By.XPATH, value='//div[@role="listitem"]')
+                club_elements = driver.find_elements(by=By.XPATH, value='(//div[@role="list"])[last()]/div[@role="listitem"]')
                 club_count = len(club_elements)
                 club_text_list = [element.text.split('\n', 1)[0].strip() for element in club_elements]
                 logger.info('共找到 ' + str(club_count) + ' 個社團')
